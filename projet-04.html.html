@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Transverse - Pilotage Opérationnel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --noir: #1a1a1a;
+            --or: #d4af37;
+            --or-clair: #e6c547;
+            --blanc: #f5f5f5;
+            --gris-clair: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--noir);
+            color: var(--blanc);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--noir) 0%, #2a2a2a 100%);
+            border-bottom: 3px solid var(--or);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: var(--or);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--or-clair);
+            font-size: 1.2em;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background-color: var(--noir);
+            border-bottom: 1px solid var(--or);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--or);
+            border-bottom-color: var(--or);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: var(--or);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--or);
+            position: relative;
+        }
+
+        section h2::before {
+            content: "▪";
+            margin-right: 15px;
+            color: var(--or);
+        }
+
+        section h3 {
+            font-size: 1.5em;
+            color: var(--or-clair);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            text-align: justify;
+            color: var(--gris-clair);
+        }
+
+        .content-box {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-left: 4px solid var(--or);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .highlight {
+            color: var(--or);
+            font-weight: 600;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border: 1px solid var(--or);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            transition: left 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h3 {
+            color: var(--or);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            color: var(--gris-clair);
+            margin-bottom: 0;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-top: 3px solid var(--or);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 2px;
+            background-color: var(--or);
+            margin: 20px auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            section h2 {
+                font-size: 1.5em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav a {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                padding-left: 20px;
+            }
+
+            nav a:hover {
+                border-left-color: var(--or);
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projet Transverse</h1>
+        <p class="subtitle">Pilotage et Planification Opérationnelle</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#contexte">Contexte</a></li>
+            <li><a href="#methodologie">Méthodologie</a></li>
+            <li><a href="#crise">Gestion de Crise</a></li>
+            <li><a href="#reflexion">Réflexion</a></li>
+        </ul>
+    </nav>
+
+    <div style="text-align: center; padding: 15px 20px; background-color: rgba(212, 175, 55, 0.1);">
+        <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+    </div>
+
+    <main>
+        <!-- Section Contexte -->
+        <section id="contexte">
+            <h2>Contexte et Enjeux de Gestion</h2>
+            <div class="content-box">
+                <p>
+                    Dans le cadre de la production de teasers vidéo pour l'association Elyria, j'ai endossé le rôle de 
+                    <span class="highlight">responsable de la planification opérationnelle</span>. L'enjeu n'était pas seulement créatif, 
+                    mais consistait à garantir une circulation fluide de l'information pour permettre un pilotage efficace de l'équipe 
+                    et une prise de décision éclairée à chaque étape du projet.
+                </p>
+                <p>
+                    J'ai dû coordonner le travail d'un groupe de <span class="highlight">5 personnes</span>, en veillant à la cohérence 
+                    entre les ambitions artistiques et les contraintes temporelles.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section Méthodologie -->
+        <section id="methodologie">
+            <h2>Déploiement d'une Méthodologie de Suivi</h2>
+            <p>Pour structurer cette collaboration, j'ai mis en place un système de pilotage basé sur des outils professionnels :</p>
+            
+            <div class="three-column">
+                <div class="card">
+                    <h3>Organisation et Répartition</h3>
+                    <p>
+                        J'ai conçu un <span class="highlight">diagramme de Gantt</span> complet et détaillé pour définir les responsabilités de chacun 
+                        et séquencer les tâches de manière optimale.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Rythme de Travail</h3>
+                    <p>
+                        J'ai instauré des <span class="highlight">réunions d'avancement régulières</span> afin de maintenir une dynamique de groupe 
+                        et de documenter les décisions ainsi que les imprévus.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Reporting Stratégique</h3>
+                    <p>
+                        J'ai produit des <span class="highlight">rapports hebdomadaires</span> et constitué un dossier documentaire de pilotage, 
+                        assurant une traçabilité totale des actions.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Gestion de Crise -->
+        <section id="crise">
+            <h2>Gestion de Crise et Adaptabilité</h2>
+            <div class="content-box">
+                <h3>Obstacles Majeurs</h3>
+                <p>
+                    La robustesse de notre planification a été mise à l'épreuve par des aléas majeurs, notamment le contexte lié 
+                    au <span class="highlight">coronavirus</span> et divers <span class="highlight">bugs informatiques</span>.
+                </p>
+            </div>
+
+            <div class="content-box">
+                <h3>Agilité Opérationnelle</h3>
+                <p>
+                    Face à ces obstacles, j'ai dû adapter le plan initial en temps réel pour maintenir la cadence de production 
+                    tout en préservant la qualité des livrables.
+                </p>
+            </div>
+
+            <div class="content-box">
+                <h3>Aboutissement</h3>
+                <p>
+                    Malgré ces perturbations, cette gestion rigoureuse a permis la <span class="highlight">livraison finale des teasers vidéo</span>, 
+                    prouvant notre capacité à maintenir nos objectifs sous pression.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section Analyse Réflexive -->
+        <section id="reflexion">
+            <h2>Analyse Réflexive et Expertise Acquise</h2>
+            <p>
+                Cette expérience de terrain a été un puissant révélateur des limites de la planification théorique et a enrichi ma compréhension 
+                du management de projet.
+            </p>
+
+            <div class="three-column">
+                <div class="card">
+                    <h3>Culture de la Prévention</h3>
+                    <p>
+                        J'ai réalisé que notre planification initiale manquait de ressources tampons (temps et moyens) et d'une véritable stratégie 
+                        de prévention des risques. Une meilleure anticipation des menaces dès le début aurait réduit le stress.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Formalisation des Décisions</h3>
+                    <p>
+                        J'ai noté que la documentation des décisions en cours de projet est restée insuffisante, soulignant l'importance 
+                        d'une rigueur administrative constante pour éviter toute perte d'information.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Postures Managériales</h3>
+                    <p>
+                        J'ai acquis la conviction qu'un bon gestionnaire de projet doit savoir concilier la rigidité d'un calendrier 
+                        avec la souplesse nécessaire à la résolution de crises techniques ou humaines.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="margin-bottom: 20px;">
+            <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+        </div>
+        <p>&copy; 2026 Projet Transverse - Pilotage Opérationnel</p>
+        <div class="footer-divider"></div>
+        <p>Une démonstration d'excellence en gestion de projet et leadership</p>
+    </footer>
+</body>
+</html>

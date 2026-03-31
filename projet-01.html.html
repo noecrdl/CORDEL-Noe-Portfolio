@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet SAE 1.01 - Jeu Intergénérationnel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 50%, #1a1a1a 100%);
+            border-bottom: 3px solid #d4af37;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2);
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            color: #d4af37;
+            text-shadow: 2px 2px 8px rgba(212, 175, 55, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #b8860b;
+            font-style: italic;
+        }
+
+        nav {
+            background: #0a0a0a;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 2px solid #d4af37;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 40px;
+            border-left: 5px solid #d4af37;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+            transform: translateX(10px);
+        }
+
+        .section h2 {
+            font-size: 2.2em;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(212, 175, 55, 0.3);
+        }
+
+        .section h3 {
+            font-size: 1.5em;
+            color: #b8860b;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            font-size: 1.1em;
+            color: #d0d0d0;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .section ul li {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background: rgba(212, 175, 55, 0.08);
+            border-left: 3px solid #d4af37;
+            border-radius: 4px;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .section ul li:hover {
+            background: rgba(212, 175, 55, 0.15);
+            padding-left: 30px;
+        }
+
+        .highlight {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            border-top: 3px solid #d4af37;
+            color: #b8860b;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            nav a {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+
+        .accent-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SAE 1.01</h1>
+        <p>Création d'un Jeu de Société Intergénérationnel</p>
+    </header>
+
+    <nav>
+        <button onclick="history.back()" style="margin-right: auto; padding: 8px 16px; background: #d4af37; color: #000; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">← Retour</button>
+        <a href="#contexte">Contexte</a>
+        <a href="#demarche">Démarche</a>
+        <a href="#resultats">Résultats</a>
+        <a href="#analyse">Analyse</a>
+    </nav>
+
+    <div class="container">
+        <div class="section" id="contexte">
+            <h2>Contexte et Enjeux</h2>
+            <p>
+                Dans le cadre de la SAE 1.01 dédiée au Design Thinking, j'ai participé à la conception d'un jeu de plateau innovant dont l'objectif principal était de <span class="highlight">favoriser la cohésion sociale</span> en rassemblant différentes générations autour d'une activité ludique. Inspiré par la mécanique du jeu Limite Limite, ce projet visait à créer un support de divertissement original capable de créer un pont entre les jeunes et les seniors.
+            </p>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="section" id="demarche">
+            <h2>Ma Démarche Créative</h2>
+            <h3>De l'idée au Prototype</h3>
+            <p>
+                Pour répondre à l'apprentissage critique AC11.06 (Générer des idées au sein d'ateliers de créativité), nous avons suivi un processus de création structuré sur 12 semaines :
+            </p>
+
+            <h3>Étapes du Projet</h3>
+            <ul>
+                <li><span class="highlight">Immersion et Brainstorming :</span> Utilisation de la méthode Design Thinking pour explorer des concepts innovants et définir une ligne directrice qui plaise à un public large et diversifié.</li>
+                <li><span class="highlight">Conception Éditoriale :</span> Élaboration de questions et de réponses pertinentes, soigneusement sélectionnées pour stimuler l'échange et l'humour tout en restant accessibles à tous les âges.</li>
+                <li><span class="highlight">Design Visuel :</span> Réalisation complète du design des cartes de jeu, en veillant à l'esthétique et à l'ergonomie du support final.</li>
+            </ul>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="section" id="resultats">
+            <h2>Résultats et Compétences Mobilisées</h2>
+            <p>
+                Ce travail collaboratif, mené au sein d'un groupe de 5 personnes, a abouti à la livraison d'un jeu de cartes complet et original. Ce projet m'a permis de :
+            </p>
+            <ul>
+                <li>Maîtriser les techniques de génération d'idées et de prise de décision collective.</li>
+                <li>Concrétiser une réflexion abstraite en un livrable tangible et fonctionnel.</li>
+                <li>Développer une vision globale d'un projet, de la phase de réflexion à la production finale.</li>
+            </ul>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="section" id="analyse">
+            <h2>Analyse Réflexive</h2>
+            <p>
+                Bien que le résultat final ait été très satisfaisant, ce projet m'a permis de comprendre l'importance cruciale de la phase de <span class="highlight">test utilisateur</span>. Avec le recul, une phase d'expérimentation plus longue auprès de nos cibles (seniors et jeunes) avant la livraison finale aurait permis d'optimiser davantage l'ergonomie et l'équilibre des questions.
+            </p>
+            <p>
+                Cette expérience a renforcé ma conviction que le <span class="highlight">retour utilisateur</span> est le moteur essentiel de toute innovation réussie.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Projet SAE 1.01 | Design Thinking & Jeux Intergénérationnels</p>
+    
+        <button onclick="history.back()" style="margin-top: 15px; padding: 10px 20px; background: #d4af37; color: #000; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">← Retour à la page précédente</button>
+    </footer>
+</body>
+</html>

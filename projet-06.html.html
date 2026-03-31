@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Transverse - Elyria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --noir: #1a1a1a;
+            --or: #d4af37;
+            --or-clair: #e6c547;
+            --blanc: #f5f5f5;
+            --gris-clair: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--noir);
+            color: var(--blanc);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--noir) 0%, #2a2a2a 100%);
+            border-bottom: 3px solid var(--or);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: var(--or);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--or-clair);
+            font-size: 1.2em;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background-color: var(--noir);
+            border-bottom: 1px solid var(--or);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--or);
+            border-bottom-color: var(--or);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: var(--or);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--or);
+            position: relative;
+        }
+
+        section h2::before {
+            content: "▪";
+            margin-right: 15px;
+            color: var(--or);
+        }
+
+        section h3 {
+            font-size: 1.5em;
+            color: var(--or-clair);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            text-align: justify;
+            color: var(--gris-clair);
+        }
+
+        .content-box {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-left: 4px solid var(--or);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .highlight {
+            color: var(--or);
+            font-weight: 600;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border: 1px solid var(--or);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            transition: left 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h3 {
+            color: var(--or);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            color: var(--gris-clair);
+            margin-bottom: 0;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-top: 3px solid var(--or);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 2px;
+            background-color: var(--or);
+            margin: 20px auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            section h2 {
+                font-size: 1.5em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav a {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                padding-left: 20px;
+            }
+
+            nav a:hover {
+                border-left-color: var(--or);
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projet Transverse : Ateliers de Créativité</h1>
+        <p class="subtitle">Ciblage stratégique pour l'association Elyria</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#contexte">Contexte</a></li>
+            <li><a href="#methodologie">Démarche</a></li>
+            <li><a href="#livrables">Résultats</a></li>
+            <li><a href="#reflexion">Réflexion</a></li>
+        </ul>
+    </nav>
+
+    <div style="text-align: center; padding: 15px 20px; background-color: rgba(212, 175, 55, 0.1);">
+        <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+    </div>
+
+    <main>
+        <!-- Section Contexte -->
+        <section id="contexte">
+            <h2>Contexte et Objectifs de Communication</h2>
+            <div class="content-box">
+                <p>
+                    Dans le cadre de mon <span class="highlight">projet transverse</span> pour l'association 
+                    <span class="highlight">Elyria</span>, j'ai été au cœur du processus de conception de la communication digitale.
+                    L'objectif principal était de générer un <span class="highlight">engagement fort auprès de nos cibles</span> en développant une stratégie
+                    basée sur des idées innovantes et une identité visuelle originale.
+                </p>
+                <p>
+                    Ce travail a nécessité de concilier une <span class="highlight">liberté de création artistique</span> avec les exigences rigoureuses
+                    d'un <span class="highlight">plan de communication professionnel</span>, afin de garantir à la fois créativité et cohérence stratégique.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section Méthodologie -->
+        <section id="methodologie">
+            <h2>Une Démarche d'Idéation Structurée</h2>
+            <p>
+                Pour maximiser l'impact de nos futurs contenus, j'ai participé activement à un <span class="highlight">cycle de réflexion intensive d'un mois</span>,
+                intégré dans un projet global de six mois. Cette phase s'est articulée autour de plusieurs axes méthodologiques complémentaires.
+            </p>
+            
+            <div class="three-column">
+                <div class="card">
+                    <h3>Brainstorming & veille créative</h3>
+                    <p>
+                        Nous avons mis en place des <span class="highlight">sessions de brainstorming structurées</span> pour explorer des éléments visuels
+                        et artistiques différenciants. Cette phase d'idéation visait à sortir des sentiers battus et à proposer des contenus
+                        véritablement originaux.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Ciblage & multiplateforme</h3>
+                    <p>
+                        La réflexion a porté sur la manière de traduire ces idées en <span class="highlight">livrables concrets</span>, notamment via la création
+                        de teasers vidéo. L'enjeu était d'adapter le ton et le format pour toucher efficacement nos cibles sur leurs 
+                        <span class="highlight">plateformes de prédilection</span>.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Filtrage et décisions</h3>
+                    <p>
+                        Une étape cruciale a consisté à <span class="highlight">mettre en commun les propositions</span> et à appliquer des phases de filtrage
+                        pour ne retenir que les concepts les plus en phase avec l'<span class="highlight">identité d'Elyria</span> et ses objectifs de communication.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Livrables -->
+        <section id="livrables">
+            <h2>Résultats et Livrables Stratégiques</h2>
+            <div class="content-box">
+                <h3>Production créative et ligne directrice</h3>
+                <p>
+                    Ce processus créatif a abouti à des résultats <span class="highlight">tangibles et diversifiés</span>, permettant à l'association
+                    de structurer sa présence digitale tout en affirmant une identité forte et cohérente.
+                </p>
+            </div>
+
+            <div class="three-column">
+                <div class="card">
+                    <h3>Production audiovisuelle</h3>
+                    <p>
+                        Nous avons livré plusieurs <span class="highlight">vidéos de communication</span> (teasers) aux contenus originaux et variés,
+                        conçues pour capter l'attention et renforcer l'engagement de notre communauté.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Ligne directrice claire</h3>
+                    <p>
+                        La mise en commun efficace des idées a permis de définir une <span class="highlight">ligne directrice de communication</span> claire,
+                        garantissant une harmonie visuelle et éditoriale sur l'ensemble de nos supports.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Innovation & attractivité</h3>
+                    <p>
+                        La démarche a favorisé l'émergence de <span class="highlight">concepts novateurs</span> de communication, renforçant l'attractivité
+                        digitale de l'association et sa capacité à se distinguer dans son environnement.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Analyse Réflexive -->
+        <section id="reflexion">
+            <h2>Analyse Réflexive et Posture Professionnelle</h2>
+            <p>
+                Cette expérience a été un <span class="highlight">terrain d'apprentissage majeur</span> sur la gestion du flux créatif en contexte professionnel
+                et sur l'équilibre à trouver entre originalité et performance.
+            </p>
+
+            <div class="three-column">
+                <div class="card">
+                    <h3>Le défi de la profusion</h3>
+                    <p>
+                        La phase de génération d'idées a été si productive qu'elle a parfois conduit l'équipe à s'égarer.
+                        J'ai compris qu'une <span class="highlight">trop grande liberté créative</span>, sans cadre décisionnel clair, peut ralentir
+                        la progression globale du projet.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Optimisation du processus</h3>
+                    <p>
+                        Pour mes futurs projets, je préconise de <span class="highlight">structurer davantage le processus de sélection</span> en amont,
+                        afin de se concentrer plus rapidement sur les pistes les plus pertinentes et les plus alignées avec les objectifs.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Équilibre art & stratégie</h3>
+                    <p>
+                        Ce projet a mis en lumière la difficulté de dissocier l'aspect purement <span class="highlight">artistique</span> de l'objectif
+                        de conversion ou d'engagement. Il est essentiel de <span class="highlight">valider les concepts créatifs</span> par des objectifs de
+                        communication précis pour s'assurer que l'originalité sert réellement la performance.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="margin-bottom: 20px;">
+            <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+        </div>
+        <p>&copy; 2026 Projet Transverse - Elyria</p>
+        <div class="footer-divider"></div>
+        <p>Ateliers de créativité et ciblage stratégique en communication digitale</p>
+    </footer>
+</body>
+</html>

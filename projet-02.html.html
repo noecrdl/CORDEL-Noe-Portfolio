@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Elyria - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e8e8e8;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #d4af37;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4af37, #f0e68c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5)); }
+            50% { filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.8)); }
+        }
+
+        .back-btn {
+            color: #d4af37;
+            text-decoration: none;
+            margin-left: 2.5rem;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            color: #f0e68c;
+        }
+
+        .back-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        .back-btn:hover::after {
+            width: 100%;
+        }
+
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            margin-left: 2.5rem;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -60%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #d4af37, #f0e68c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #d4af37, #c19a1b);
+            color: #0a0e27;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 2px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #d4af37, transparent);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .content-block {
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-block:hover {
+            border-color: #d4af37;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .content-block h3 {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-block p {
+            color: #d0d0d0;
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+        }
+
+        .full-width-text {
+            background: rgba(26, 31, 58, 0.8);
+            border-left: 4px solid #d4af37;
+            border-radius: 0 15px 15px 0;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            line-height: 2;
+            font-size: 1.05rem;
+            color: #d0d0d0;
+        }
+
+        .highlight {
+            color: #d4af37;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 31, 58, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            border-color: #d4af37;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            color: #d4af37;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-card p {
+            color: #b8b8b8;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: rgba(10, 14, 39, 0.95);
+            border-top: 2px solid #d4af37;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #b8b8b8;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .social-links a:hover {
+            color: #f0e68c;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            nav a {
+                margin-left: 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin-left: 1rem;
+            }
+
+            .hero {
+                padding: 100px 1rem 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 50px 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <button class="back-btn" onclick="goBack()">← Retour</button>
+                <div class="logo">Elyria</div>
+            </div>
+            <nav>
+                <a href="#projet">Projet</a>
+                <a href="#methodologie">Méthodologie</a>
+                <a href="#resultats">Résultats</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Stratégie de Communication Digitale</h1>
+            <p>Association Elyria - Projet Transverse</p>
+            <a href="#projet" class="cta-button">Découvrir le Projet</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="projet">
+            <h2 class="section-title">Focus Projet Transverse</h2>
+            
+            <div class="full-width-text">
+                <p>Voici un développement approfondi de votre expérience en communication digitale pour l'association Elyria, conçu pour mettre en valeur votre <span class="highlight">esprit stratégique</span> et votre capacité à gérer des processus créatifs complexes dans votre portfolio.</p>
+            </div>
+
+            <div style="margin-top: 3rem;"></div>
+
+            <h3 class="section-title">Contexte et Enjeux Stratégiques</h3>
+            
+            <div class="content-grid">
+                <div class="content-block">
+                    <h3>Objectif Principal</h3>
+                    <p>Dans le cadre d'un projet transverse de six mois, j'ai été chargé de concevoir et de déployer la stratégie de communication digitale de l'association Elyria. L'objectif principal était de développer une <span class="highlight">identité numérique forte</span> capable de générer un engagement durable auprès de notre audience.</p>
+                </div>
+                <div class="content-block">
+                    <h3>Approche Stratégique</h3>
+                    <p>Ce travail a nécessité de traduire des valeurs associatives en concepts visuels et éditoriaux innovants, tout en assurant une <span class="highlight">cohérence globale</span> sur différents supports.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="methodologie">
+            <h2 class="section-title">Une Méthodologie Créative Structurée</h2>
+            
+            <p style="color: #d0d0d0; margin-bottom: 2rem;">Pour répondre à l'apprentissage critique AC11.06 (Générer des idées au sein d'ateliers de créativité), j'ai co-animé et participé à une phase de réflexion intensive d'un mois au sein d'une équipe de quatre personnes.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h4>Brainstorming et Idéation</h4>
+                    <p>Mise en œuvre d'une méthode de brainstorming structurée pour explorer des pistes artistiques et visuelles originales.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Filtrage et Sélection</h4>
+                    <p>Phases de filtrage rigoureuses pour ne retenir que les propositions les plus pertinentes par rapport aux objectifs d'engagement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h4>Ligne Directrice</h4>
+                    <p>Établissement d'une ligne directrice de communication claire et harmonisée.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultats" style="margin-top: 4rem;">
+            <h2 class="section-title">Livrables et Impacts</h2>
+            
+            <div class="content-grid">
+                <div class="content-block">
+                    <h3>Production Audiovisuelle</h3>
+                    <p>Création et livraison de plusieurs vidéos de communication (teasers) destinées à dynamiser nos réseaux sociaux.</p>
+                </div>
+                <div class="content-block">
+                    <h3>Originalité & Innovation</h3>
+                    <p>Développement de <span class="highlight">concepts innovants</span> qui ont permis de différencier la communication d'Elyria de celle d'autres organisations similaires.</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-block">
+                    <h3>Cohérence de Marque</h3>
+                    <p>Établissement d'une charte éditoriale assurant que chaque contenu produit servait directement la stratégie d'engagement initiale.</p>
+                </div>
+                <div class="content-block">
+                    <h3>Résultats Concrets</h3>
+                    <p>Résultats qualitatifs mesurables : engagement utilisateur, viralité des contenus, et renforcement de la présence digitale.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 4rem;">
+            <h2 class="section-title">Analyse Réflexive et Posture Professionnelle</h2>
+            
+            <div class="full-width-text">
+                <p>Cette expérience a été un moteur d'apprentissage sur la gestion de la créativité en équipe. Si la phase de brainstorming a été extrêmement productive, elle a également révélé certains défis importants :</p>
+                
+                <p style="margin-top: 2rem;"><span class="highlight">Gestion de la Profusion</span> : La génération massive d'idées nous a parfois conduits à nous égarer, soulignant la nécessité d'un cadre décisionnel plus strict dès le lancement du projet.</p>
+                
+                <p style="margin-top: 1rem;"><span class="highlight">Optimisation du Processus</span> : J'ai réalisé l'importance de structurer le processus de sélection des idées beaucoup plus tôt pour gagner en efficacité et concentrer l'énergie de l'équipe sur les axes les plus porteurs.</p>
+                
+                <p style="margin-top: 1rem;"><span class="highlight">Anticipation des Risques</span> : Ce projet, marqué par des imprévus techniques et contextuels, m'a appris à intégrer une culture de la prévention des risques dans la planification créative.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <h3 style="color: #d4af37; margin-bottom: 1rem;">Elyria - Projet Transverse</h3>
+            <p>Stratégie de Communication Digitale | Portfolio Professionnel</p>
+            <p style="font-size: 0.9rem; color: #888; margin-top: 1.5rem;">© 2026 - Communication Digitale Innovation</p>
+            <div class="social-links">
+            
+            </div>
+            <div class="back-button-footer">
+                <button onclick="goBack()" class="modern-back-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Retour
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

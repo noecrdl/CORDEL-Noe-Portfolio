@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE - Écosystème Marketing WATTS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --noir: #1a1a1a;
+            --or: #d4af37;
+            --or-clair: #e6c547;
+            --blanc: #f5f5f5;
+            --gris-clair: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--noir);
+            color: var(--blanc);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--noir) 0%, #2a2a2a 100%);
+            border-bottom: 3px solid var(--or);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: var(--or);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--or-clair);
+            font-size: 1.2em;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background-color: var(--noir);
+            border-bottom: 1px solid var(--or);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--or);
+            border-bottom-color: var(--or);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: var(--or);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--or);
+            position: relative;
+        }
+
+        section h2::before {
+            content: "▪";
+            margin-right: 15px;
+            color: var(--or);
+        }
+
+        section h3 {
+            font-size: 1.5em;
+            color: var(--or-clair);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            text-align: justify;
+            color: var(--gris-clair);
+        }
+
+        .content-box {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-left: 4px solid var(--or);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .highlight {
+            color: var(--or);
+            font-weight: 600;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border: 1px solid var(--or);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            transition: left 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h3 {
+            color: var(--or);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            color: var(--gris-clair);
+            margin-bottom: 0;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-top: 3px solid var(--or);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 2px;
+            background-color: var(--or);
+            margin: 20px auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            section h2 {
+                font-size: 1.5em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav a {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                padding-left: 20px;
+            }
+
+            nav a:hover {
+                border-left-color: var(--or);
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SAE : Écosystème Marketing</h1>
+        <p class="subtitle">Étude stratégique pour l'entreprise WATTS</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#contexte">Contexte</a></li>
+            <li><a href="#methodologie">Méthodologie</a></li>
+            <li><a href="#livrables">Livrables</a></li>
+            <li><a href="#reflexion">Réflexion</a></li>
+        </ul>
+    </nav>
+
+    <div style="text-align: center; padding: 15px 20px; background-color: rgba(212, 175, 55, 0.1);">
+        <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+    </div>
+
+    <main>
+        <!-- Section Contexte -->
+        <section id="contexte">
+            <h2>Contexte et Enjeux Stratégiques</h2>
+            <div class="content-box">
+                <p>
+                    Dans le cadre de cette <span class="highlight">SAE : Étude de l'Écosystème Marketing</span>, j'ai contribué à une analyse approfondie pour l'entreprise 
+                    <span class="highlight">WATTS</span>, marque française spécialisée dans les vêtements techniques de glisse et le streetwear.[web:1][web:5]
+                    L'objectif central était de décrypter l'écosystème complexe de l'entreprise afin de l'aider à 
+                    <span class="highlight">s'intégrer et se développer de manière optimale sur son marché</span>.
+                </p>
+                <p>
+                    Pour une organisation comme WATTS, comprendre son environnement ne se limite pas à connaître ses produits, 
+                    mais implique une maîtrise des <span class="highlight">interactions entre les différents acteurs</span> (clients, concurrents, fournisseurs, influenceurs, distributeurs)
+                    qui conditionnent sa performance marketing et sa croissance.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section Méthodologie -->
+        <section id="methodologie">
+            <h2>Méthodologie : de la Recherche à la Cartographie</h2>
+            <p>Ce projet, mené en groupe de <span class="highlight">7 personnes</span>, a nécessité une organisation rigoureuse pour traiter une masse importante d'informations :</p>
+            
+            <div class="three-column">
+                <div class="card">
+                    <h3>Identification systématique</h3>
+                    <p>
+                        Nous avons réalisé une <span class="highlight">recherche documentaire structurée</span> afin d'identifier l'ensemble des 
+                        parties prenantes : producteurs, concurrents directs et indirects, fournisseurs, distributeurs 
+                        et influenceurs du secteur de la glisse et du streetwear.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Segmentation & catégorisation</h3>
+                    <p>
+                        J'ai participé à la <span class="highlight">classification des acteurs par catégorie</span> (clients, concurrents, agents, membres, etc.), 
+                        ce qui a permis de dégager une vision claire des forces en présence dans l'écosystème marketing de WATTS.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Analyse géographique et sectorielle</h3>
+                    <p>
+                        Nous avons analysé la <span class="highlight">présence géographique</span> des acteurs et les différents secteurs représentés, 
+                        afin d'identifier les zones d'opportunités et les zones de forte pression concurrentielle pour la marque.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Livrables -->
+        <section id="livrables">
+            <h2>Livrables et Apports Stratégiques</h2>
+            <div class="content-box">
+                <h3>Outils produits</h3>
+                <p>
+                    Le principal livrable a été la production d'un <span class="highlight">tableau synthétique complet</span> des acteurs identifiés au sein de l'écosystème marketing de WATTS.
+                    Ce document constitue un véritable <span class="highlight">outil d'aide à la décision</span> pour l'entreprise.
+                </p>
+            </div>
+
+            <div class="three-column">
+                <div class="card">
+                    <h3>Vision des segments</h3>
+                    <p>
+                        Le tableau permet de <span class="highlight">visualiser les segments de marché prioritaires</span> sur lesquels concentrer les efforts 
+                        marketing et commerciaux à court et moyen terme.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Partenaires potentiels</h3>
+                    <p>
+                        Il facilite l'<span class="highlight">identification de partenaires stratégiques</span> (fournisseurs, distributeurs, influenceurs) 
+                        susceptibles de soutenir la stratégie marketing et le développement de la marque.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Positionnement concurrentiel</h3>
+                    <p>
+                        L'analyse permet de mieux <span class="highlight">comprendre le positionnement des principaux concurrents</span>, 
+                        afin d'affiner celui de WATTS et de renforcer sa différenciation sur le marché.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Analyse Réflexive -->
+        <section id="reflexion">
+            <h2>Analyse Réflexive et Posture Professionnelle</h2>
+            <p>
+                Cette investigation a été un excellent exercice de <span class="highlight">synthèse et d'analyse stratégique</span>, 
+                mais elle a également mis en lumière plusieurs défis liés à l'étude de marché.
+            </p>
+
+            <div class="three-column">
+                <div class="card">
+                    <h3>Limites de la donnée secondaire</h3>
+                    <p>
+                        Malgré une recherche documentaire approfondie, j'ai constaté que les <span class="highlight">données issues du web</span> 
+                        peuvent être datées ou partielles, ce qui impose une <span class="highlight">mise à jour régulière</span> pour rester pertinentes.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Nécessité du terrain</h3>
+                    <p>
+                        Avec le recul, l'analyse aurait gagné en précision si nous avions pu mener des <span class="highlight">entretiens directs</span> 
+                        avec certains acteurs clés. La confrontation des données théoriques au terrain est essentielle pour une vision nuancée.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Approfondir certains segments</h3>
+                    <p>
+                        Pour mes futurs projets, je veillerai à <span class="highlight">approfondir l'étude de segments de niche</span> afin d'éviter 
+                        une analyse concurrentielle trop superficielle et d'apporter une <span class="highlight">valeur ajoutée plus spécifique</span> à l'entreprise.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="margin-bottom: 20px;">
+            <a href="javascript:history.back()" style="color: var(--or); text-decoration: none; font-weight: 500; font-size: 1em; transition: all 0.3s ease;" onmouseover="this.style.color='var(--or-clair)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--or)'; this.style.textDecoration='none';">← Retour à la page précédente</a>
+        </div>
+        <p>&copy; 2026 SAE - Écosystème Marketing WATTS</p>
+        <div class="footer-divider"></div>
+        <p>Une mise en pratique de l'analyse stratégique et de la veille marketing</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noé Cordel — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--bg2:#0f0f0f;--bg3:#161616;--gold:#c9a96e;--gold-dim:#7a5f35;--white:#f0ede8;--gray:#555;--gray-light:#8a8a8a;--border:rgba(201,169,110,.14);--border-bright:rgba(201,169,110,.4)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur-ring{position:fixed;width:34px;height:34px;border:1px solid rgba(201,169,110,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dim)}
+#progress{position:fixed;top:0;left:0;height:1px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));z-index:200;transition:width .1s;width:0}
+canvas#pc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:150;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(8,8,8,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:1rem;font-weight:300;letter-spacing:.35em;text-transform:uppercase;color:var(--gold)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-light);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}.nav-links a:hover::after{width:100%}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;z-index:2}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 4rem 7rem;position:relative;z-index:2}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:0;animation:fadeUp .8s .2s forwards}
+.hero-name{font-size:clamp(4.5rem,8vw,8rem);font-weight:300;line-height:.9;letter-spacing:-.03em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .4s forwards}
+.hero-name em{font-style:italic;color:var(--gold)}
+.hero-subtitle{font-size:1.2rem;font-weight:300;color:var(--gray-light);letter-spacing:.04em;margin-bottom:.4rem;opacity:0;animation:fadeUp .8s .55s forwards}
+.hero-univ{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--gold-dim);margin-bottom:3rem;opacity:0;animation:fadeUp .8s .65s forwards}
+.hero-scroll{display:inline-flex;align-items:center;gap:.8rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;opacity:0;animation:fadeUp .8s .8s forwards;transition:gap .3s}
+.hero-scroll:hover{gap:1.4rem}.hero-scroll::after{content:'↓';font-size:1rem}
+
+/* HERO RIGHT */
+.hero-right{position:relative;display:flex;align-items:center;justify-content:center;z-index:2}
+.img-stack{position:relative;width:340px;height:460px;opacity:0;animation:fadeIn 1.2s .5s forwards}
+.img-card{position:absolute;overflow:hidden;border-radius:2px}
+.img-card img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%) contrast(1.08);transition:transform .6s}
+.img-card:hover img{transform:scale(1.04)}
+.img-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(8,8,8,.6));pointer-events:none}
+.img-main{width:260px;height:360px;top:50px;left:40px;border:1px solid var(--border-bright);z-index:3;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.img-back1{width:180px;height:240px;top:0;left:0;z-index:2;border:1px solid var(--border);opacity:.7;transform:rotate(-4deg)}
+.img-back2{width:160px;height:200px;top:200px;right:0;z-index:1;border:1px solid var(--border);opacity:.5;transform:rotate(3deg)}
+.img-tag{position:absolute;bottom:-1rem;right:0;background:var(--bg2);border:1px solid var(--border-bright);padding:.6rem 1.1rem;z-index:4}
+.img-tag span{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.hero-badge{position:absolute;top:18%;left:-12px;background:var(--bg3);border:1px solid var(--border-bright);padding:.8rem 1.2rem;z-index:5;animation:float 4s ease-in-out infinite}
+.hero-badge .b-num{font-size:1.8rem;font-weight:300;color:var(--gold);line-height:1}
+.hero-badge .b-txt{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.15em;color:var(--gray-light);text-transform:uppercase}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-bg-text{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:clamp(8rem,18vw,22rem);font-weight:300;color:rgba(201,169,110,.025);letter-spacing:-.05em;white-space:nowrap;pointer-events:none;user-select:none;z-index:1}
+
+/* PARALLAX BAND */
+.parallax-band{height:300px;display:grid;grid-template-columns:repeat(3,1fr);position:relative;z-index:2}
+.par-cell{position:relative;overflow:hidden}
+.par-cell img{width:100%;height:100%;object-fit:cover;filter:grayscale(35%) brightness(.75);transform:scale(1.08);transition:transform .7s,filter .5s}
+.par-cell:hover img{transform:scale(1.0);filter:grayscale(0%) brightness(.9)}
+.par-cell::after{content:'';position:absolute;inset:0;background:rgba(8,8,8,.45)}
+.par-label{position:absolute;bottom:1.2rem;left:1.4rem;z-index:2;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+/* SECTIONS */
+section{padding:7rem 0;position:relative;z-index:2}
+.container{max-width:1200px;margin:0 auto;padding:0 5rem}
+.s-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:4.5rem}
+.s-num{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);letter-spacing:.2em}
+.s-line{flex:1;height:1px;background:var(--border);max-width:50px}
+.s-title{font-size:clamp(2.5rem,4vw,4rem);font-weight:300;letter-spacing:-.02em;line-height:1}
+.s-title em{font-style:italic;color:var(--gold)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-text p{font-size:1.15rem;font-weight:300;line-height:1.95;color:var(--gray-light);margin-bottom:1.5rem}
+.about-text p strong{color:var(--white);font-weight:400}
+.about-text p em{color:var(--gold);font-style:italic}
+.about-info{display:flex;flex-direction:column}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;padding:1.1rem 0;border-bottom:1px solid var(--border);transition:border-color .3s}
+.info-row:hover{border-color:var(--border-bright)}
+.info-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.info-value{font-size:.95rem;font-weight:300;color:var(--white);text-align:right}
+
+/* HOBBIES EXPAND STRIP */
+.hobbies-strip{margin-top:2.5rem;display:flex;gap:2px;height:150px;border:1px solid var(--border);overflow:hidden}
+.hob-cell{flex:1;position:relative;overflow:hidden;transition:flex .5s cubic-bezier(.16,1,.3,1)}
+.hob-cell:hover{flex:3}
+.hob-cell img{width:100%;height:100%;object-fit:cover;filter:grayscale(50%) brightness(.65);transition:filter .4s}
+.hob-cell:hover img{filter:grayscale(0%) brightness(.85)}
+.hob-cell::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.8),transparent 60%)}
+.hob-label{position:absolute;bottom:.7rem;left:.8rem;z-index:2;font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:0;transition:opacity .35s}
+.hob-cell:hover .hob-label{opacity:1}
+
+/* TIMELINE */
+.tl-section{background:var(--bg2)}
+.tl-cols{display:grid;grid-template-columns:1fr 1fr;gap:5rem}
+.tl-col-title{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem}
+.tl-item{position:relative;padding-left:1.8rem;padding-bottom:2.5rem;border-left:1px solid var(--border)}
+.tl-item::before{content:'';position:absolute;left:-4px;top:8px;width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 12px rgba(201,169,110,.5)}
+.tl-year{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold-dim);letter-spacing:.1em;margin-bottom:.3rem}
+.tl-role{font-size:1.1rem;font-weight:400;color:var(--white);margin-bottom:.25rem}
+.tl-place{font-size:.9rem;font-style:italic;color:var(--gray-light);margin-bottom:.5rem}
+.tl-desc{font-size:.88rem;color:var(--gray);line-height:1.7}
+.badge{display:inline-block;margin-top:.5rem;padding:.15rem .65rem;border:1px solid var(--gold-dim);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.skill-card{background:var(--bg);padding:2.5rem;position:relative;overflow:hidden;transition:background .3s}
+.skill-card:hover{background:var(--bg3)}
+.skill-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--gold);transition:height .5s}
+.skill-card:hover::before{height:100%}
+.skill-name{font-size:1.25rem;font-weight:300;margin-bottom:1.2rem;color:var(--white)}
+.skill-bar-wrap{height:1px;background:var(--border);margin-bottom:.6rem;overflow:hidden}
+.skill-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-dim));width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
+.skill-pct{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold-dim);letter-spacing:.1em}
+
+/* LANGS */
+.langs-wrap{margin-top:4rem}
+.langs-title{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+.langs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.lang-card{border:1px solid var(--border);padding:2rem;text-align:center;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+.lang-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.lang-ring{width:90px;height:90px;margin:0 auto 1rem;position:relative}
+.lang-ring svg{transform:rotate(-90deg)}
+.lang-ring-bg{fill:none;stroke:rgba(201,169,110,.1);stroke-width:3}
+.lang-ring-fill{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)}
+.lang-code-inside{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lang-code{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);letter-spacing:.1em}
+.lang-pct-txt{font-size:1.3rem;font-weight:300;color:var(--white)}
+.lang-name{font-size:1rem;font-weight:300;color:var(--white);margin-bottom:.2rem}
+.lang-level{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--gold-dim);letter-spacing:.15em;text-transform:uppercase}
+
+/* PROJECTS */
+.proj-section{background:var(--bg2)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.proj-card{border:1px solid var(--border);padding:2rem;background:var(--bg);position:relative;overflow:hidden;transition:border-color .4s,transform .4s}
+.proj-card:hover{border-color:var(--gold);transform:translateY(-6px)}
+.proj-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(201,169,110,.07),transparent 70%);opacity:0;transition:opacity .4s}
+.proj-card:hover::before{opacity:1}
+.proj-num{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold-dim);letter-spacing:.15em;margin-bottom:1rem}
+.proj-img{width:100%;height:110px;object-fit:cover;margin-bottom:1.2rem;filter:grayscale(30%);transition:filter .4s;border-radius:1px;display:block}
+.proj-card:hover .proj-img{filter:grayscale(0%)}
+.proj-title{font-size:1.1rem;font-weight:400;color:var(--white);margin-bottom:.4rem}
+.proj-ctx{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.8rem}
+.proj-desc{font-size:.87rem;color:var(--gray-light);line-height:1.7}
+
+/* CONTACT */
+.contact-section{position:relative;overflow:hidden}
+.contact-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(201,169,110,.07),transparent)}
+.contact-inner{max-width:680px;margin:0 auto;text-align:center;padding:0 2rem;position:relative;z-index:2}
+.contact-title{font-size:clamp(3rem,6vw,5.5rem);font-weight:300;letter-spacing:-.03em;line-height:1;margin-bottom:1.5rem}
+.contact-title em{font-style:italic;color:var(--gold)}
+.contact-sub{font-size:1.1rem;color:var(--gray-light);font-weight:300;margin-bottom:3rem;line-height:1.8}
+.c-links{display:flex;flex-direction:column;gap:.8rem}
+.c-link{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--white);font-size:1rem;font-weight:300;padding:.9rem 0;border-bottom:1px solid var(--border);transition:all .3s}
+.c-link:hover{color:var(--gold);border-color:var(--gold);padding-left:.5rem}
+.c-lbl{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase}
+
+/* FOOTER */
+footer{padding:2rem 5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+footer span{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase}
+.dot{color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}.hero-left{padding:8rem 2rem 3rem}.hero-right{display:none}
+  .about-grid,.tl-cols,.proj-grid,.skills-grid,.langs-grid{grid-template-columns:1fr}
+  .container{padding:0 1.5rem}
+  nav{padding:1.2rem 1.5rem}
+  footer{flex-direction:column;gap:.5rem;text-align:center}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="progress"></div>
+<canvas id="pc"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">NC</div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portfolio · BUT GACO · 1ère année</p>
+    <h1 class="hero-name">Noé<br><em>Cordel</em></h1>
+    <p class="hero-subtitle">Étudiant en Gestion Administrative</p>
+    <p class="hero-univ">Université Savoie Mont Blanc — Chambéry</p>
+    <a href="#about" class="hero-scroll">Découvrir le portfolio</a>
+  </div>
+  <div class="hero-right">
+    <div class="img-stack">
+      <div class="img-card img-back1">
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80" alt="campus" loading="lazy">
+      </div>
+      <div class="img-card img-back2">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=80" alt="sport" loading="lazy">
+      </div>
+      <div class="img-card img-main">
+        <img src="https://i.ibb.co/Kxtj9vhw/CORDEL-No-fr.jpg" alt="Noé Cordel" style="object-position: center top;" loading="lazy">
+      </div>
+      <div class="hero-badge">
+        <div class="b-num">19</div>
+        <div class="b-txt">ans · Eybens</div>
+      </div>
+      <div class="img-tag"><span>BUT GACO · S1–S2</span></div>
+    </div>
+  </div>
+  <div class="hero-bg-text">GACO</div>
+</section>
+
+<!-- BAND -->
+<div class="parallax-band">
+  <div class="par-cell">
+    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=700&q=80" alt="université" loading="lazy">
+    <span class="par-label">Formation</span>
+  </div>
+  <div class="par-cell">
+    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=700&q=80" alt="gestion" loading="lazy">
+    <span class="par-label">Gestion</span>
+  </div>
+  <div class="par-cell">
+    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=700&q=80" alt="sport" loading="lazy">
+    <span class="par-label">Sport</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="s-header reveal">
+      <span class="s-num">01</span><div class="s-line"></div>
+      <h2 class="s-title">À <em>propos</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Étudiant en <strong>1ère année de BUT GACO</strong> — Gestion Administrative et Commerciale des Organisations — à l'Université Savoie Mont Blanc de Chambéry, je me forme aux pratiques de gestion, de pilotage organisationnel et de <em>communication digitale</em>.</p>
+        <p>Passionné par le sport, notamment le <strong>padel et le football</strong>, et par l'écriture créative (poésie, chansons), je cultive une sensibilité à la fois analytique et créative que je mets au service de mes projets académiques.</p>
+        <p>Autonome, doté d'un fort <em>esprit critique</em> et d'un sens aigu de la relation client, je cherche à m'engager dans des environnements stimulants qui valorisent l'initiative et la rigueur.</p>
+        <div class="hobbies-strip">
+          <div class="hob-cell">
+            <img src="https://i.ibb.co/RphsbtpK/padel-4k.jpg" alt="padel" loading="lazy">
+            <span class="hob-label">Padel</span>
+          </div>
+          <div class="hob-cell">
+            <img src="https://i.ibb.co/1fy02bvd/Jeinz-Macias.jpg" alt="football" loading="lazy">
+            <span class="hob-label">Football</span>
+          </div>
+          <div class="hob-cell">
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&q=80" alt="écriture" loading="lazy">
+            <span class="hob-label">Écriture</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-info reveal">
+        <div class="info-row"><span class="info-label">Formation</span><span class="info-value">BUT GACO — 1ère année</span></div>
+        <div class="info-row"><span class="info-label">Université</span><span class="info-value">Savoie Mont Blanc</span></div>
+        <div class="info-row"><span class="info-label">Adresse</span><span class="info-value">28 rue des Rosiers, Eybens</span></div>
+        <div class="info-row"><span class="info-label">Code postal</span><span class="info-value">38320</span></div>
+        <div class="info-row"><span class="info-label">Âge</span><span class="info-value">19 ans</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value">noe.cordel@gmail.com</span></div>
+        <div class="info-row"><span class="info-label">Téléphone</span><span class="info-value">07 81 85 45 03</span></div>
+        <div class="info-row"><span class="info-label">Loisirs</span><span class="info-value">Padel · Football · Écriture</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARCOURS -->
+<section class="tl-section" id="parcours">
+  <div class="container">
+    <div class="s-header reveal">
+      <span class="s-num">02</span><div class="s-line"></div>
+      <h2 class="s-title">Mon <em>parcours</em></h2>
+    </div>
+    <div class="tl-cols">
+      <div class="reveal">
+        <p class="tl-col-title">Formation</p>
+        <div class="tl-item">
+          <p class="tl-year">2025 — Présent</p>
+          <p class="tl-role">BUT GACO — 1ère année</p>
+          <p class="tl-place">Université Savoie Mont Blanc, Chambéry</p>
+          <p class="tl-desc">Gestion Administrative et Commerciale des Organisations — pilotage, marketing, comptabilité, communication digitale et gestion de projet.</p>
+          <span class="badge">En cours</span>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">2025</p>
+          <p class="tl-role">Baccalauréat Général</p>
+          <p class="tl-place">Lycée Pablo Neruda, Saint-Martin-d'Hères</p>
+          <p class="tl-desc">Spécialités : Sciences Économiques et Sociales / LLCER Anglais.</p>
+          <span class="badge">Mention Bien</span>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">2022</p>
+          <p class="tl-role">Brevet des Collèges</p>
+          <p class="tl-place">Collège Fernand Léger, Saint-Martin-d'Hères</p>
+          <span class="badge">Mention Très Bien</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="tl-col-title">Expériences</p>
+        <div class="tl-item">
+          <p class="tl-year">Depuis Juin 2025</p>
+          <p class="tl-role">Intérimaire</p>
+          <p class="tl-place">Diverses missions</p>
+          <p class="tl-desc">Gestion de caisse, manutention dans différentes structures.</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">Juillet 2024</p>
+          <p class="tl-role">Agent Municipal</p>
+          <p class="tl-place">Piscine Municipale de Domène</p>
+          <p class="tl-desc">Gestion de l'entrée, nettoyage des bassins et plages, accueil et prise en charge des clients.</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">Janvier 2022</p>
+          <p class="tl-role">Stage d'observation</p>
+          <p class="tl-place">Alpes Isère Habitat</p>
+          <p class="tl-desc">Observation et découverte du monde du travail en entreprise.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences">
+  <div class="container">
+    <div class="s-header reveal">
+      <span class="s-num">03</span><div class="s-line"></div>
+      <h2 class="s-title">Mes <em>compétences</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal" data-skill="80"><p class="skill-name">Autonomie</p><div class="skill-bar-wrap"><div class="skill-bar"></div></div><p class="skill-pct">Avancé</p></div>
+      <div class="skill-card reveal" data-skill="90"><p class="skill-name">Relation client</p><div class="skill-bar-wrap"><div class="skill-bar"></div></div><p class="skill-pct">Expert</p></div>
+      <div class="skill-card reveal" data-skill="85"><p class="skill-name">Esprit critique</p><div class="skill-bar-wrap"><div class="skill-bar"></div></div><p class="skill-pct">Expert</p></div>
+      <div class="skill-card reveal" data-skill="70"><p class="skill-name">Informatique</p><div class="skill-bar-wrap"><div class="skill-bar"></div></div><p class="skill-pct">Intermédiaire+</p></div>
+    </div>
+    <div class="langs-wrap">
+      <p class="langs-title reveal">Langues</p>
+      <div class="langs-grid reveal">
+        <div class="lang-card" data-pct="100">
+          <div class="lang-ring"><svg viewBox="0 0 90 90" width="90" height="90"><circle class="lang-ring-bg" cx="45" cy="45" r="40"/><circle class="lang-ring-fill" cx="45" cy="45" r="40"/></svg><div class="lang-code-inside"><span class="lang-code">FR</span><span class="lang-pct-txt">C2</span></div></div>
+          <p class="lang-name">Français</p><p class="lang-level">Langue maternelle</p>
+        </div>
+        <div class="lang-card" data-pct="82">
+          <div class="lang-ring"><svg viewBox="0 0 90 90" width="90" height="90"><circle class="lang-ring-bg" cx="45" cy="45" r="40"/><circle class="lang-ring-fill" cx="45" cy="45" r="40"/></svg><div class="lang-code-inside"><span class="lang-code">EN</span><span class="lang-pct-txt">B2+</span></div></div>
+          <p class="lang-name">Anglais</p><p class="lang-level">B2 — C1</p>
+        </div>
+        <div class="lang-card" data-pct="55">
+          <div class="lang-ring"><svg viewBox="0 0 90 90" width="90" height="90"><circle class="lang-ring-bg" cx="45" cy="45" r="40"/><circle class="lang-ring-fill" cx="45" cy="45" r="40"/></svg><div class="lang-code-inside"><span class="lang-code">ES</span><span class="lang-pct-txt">B1+</span></div></div>
+          <p class="lang-name">Espagnol</p><p class="lang-level">B1 — B1+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section class="proj-section" id="projets">
+  <div class="container">
+    <div class="s-header reveal">
+      <span class="s-num">04</span><div class="s-line"></div>
+      <h2 class="s-title">Mes <em>projets</em><span style="font-size: 0.4em; font-weight: normal;">     -      (Cliquez sur les projets pour en savoir plus)</span></h2>
+    </div>
+    <div class="proj-grid">
+      <a href="projet-01.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">01</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=500&q=80" alt="jeu" loading="lazy">
+    <h3 class="proj-title">Jeu de plateau Design Thinking</h3>
+    <p class="proj-ctx">SAE 1.01 — Compétence 1</p>
+    <p class="proj-desc">Conception d'un jeu de plateau inspiré de « Limite Limite » pour rassembler différentes générations. Brainstorming, design des cartes et élaboration des règles en groupe de 5.</p>
+  </div>
+</a>
+      <a href="projet-02.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">02</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&q=80" alt="digital" loading="lazy">
+    <h3 class="proj-title">Stratégie Communication Digitale</h3>
+    <p class="proj-ctx">PT — Association Elyria</p>
+    <p class="proj-desc">Création de la communication digitale d'une association avec production de vidéos promotionnelles et définition d'une stratégie d'engagement.</p>
+  </div>
+</a>
+      <a href="projet-03.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">03</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80" alt="pilotage" loading="lazy">
+    <h3 class="proj-title">Pilotage d'Entreprise Fictive</h3>
+    <p class="proj-ctx">SAE — Simulateur de gestion</p>
+    <p class="proj-desc">Gestion d'une entreprise fictive en concurrence : décisions stratégiques en comptabilité, logistique, marketing et RH. Tableaux de bord et rapports d'analyse.</p>
+  </div>
+</a>
+      <a href="projet-04.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">04</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=500&q=80" alt="gantt" loading="lazy">
+    <h3 class="proj-title">Planification de Projet — Elyria</h3>
+    <p class="proj-ctx">PT — Gestion de projet</p>
+    <p class="proj-desc">Organisation d'équipe via diagramme de Gantt, répartition des tâches et suivi hebdomadaire. Gestion des imprévus en temps réel.</p>
+  </div>
+</a>
+      <a href="projet-05.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">05</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&q=80" alt="marketing" loading="lazy">
+    <h3 class="proj-title">Étude Marketing de Marché</h3>
+    <p class="proj-ctx">SAE — Compétence 3</p>
+    <p class="proj-desc">Identification des acteurs du marché, analyse concurrentielle et conception d'une étude marketing complète avec tableau des acteurs et recommandations stratégiques.</p>
+  </div>
+</a>
+      <a href="projet-06.html" class="proj-card-link">
+  <div class="proj-card reveal">
+    <p class="proj-num">06</p>
+    <img class="proj-img" src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&q=80" alt="créativité" loading="lazy">
+    <h3 class="proj-title">Ateliers de Créativité</h3>
+    <p class="proj-ctx">AC11.06 — Compétence 1</p>
+    <p class="proj-desc">Ateliers de Design Thinking et brainstorming pour générer des idées innovantes avec prise de décision collective et mise en commun.</p>
+  </div>
+</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <h2 class="contact-title reveal">Travaillons <em>ensemble</em></h2>
+    <p class="contact-sub reveal">Disponible pour des opportunités d'alternance ou tout projet collaboratif en lien avec ma formation GACO.</p>
+    <div class="c-links reveal">
+      <a href="mailto:noe.cordel@gmail.com" class="c-link"><span class="c-lbl">Email</span><span>noe.cordel@gmail.com</span></a>
+      <a href="tel:0781854503" class="c-link"><span class="c-lbl">Téléphone</span><span>07 81 85 45 03</span></a>
+      <div class="c-link" style="cursor:default"><span class="c-lbl">Adresse</span><span>28 rue des Rosiers, 38320 Eybens</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Noé Cordel <span class="dot">·</span> 2026</span>
+  <span>BUT GACO <span class="dot">·</span> 1ère année</span>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animR(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR)})();
+document.querySelectorAll('a,button,.proj-card,.skill-card,.lang-card,.hob-cell,.par-cell').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(201,169,110,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='34px';ring.style.height='34px';ring.style.borderColor='rgba(201,169,110,.45)'});
+});
+
+/* PROGRESS */
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{prog.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%'});
+
+/* NAV */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
+
+/* PARTICLES */
+const canvas=document.getElementById('pc'),ctx=canvas.getContext('2d');
+let W,H,pts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;initPts()}
+function initPts(){pts=[];const n=Math.floor(W*H/16000);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.1+.3,a:Math.random()*.5+.1})}
+function drawPts(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,169,110,${p.a})`;ctx.fill()});
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,169,110,${.07*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke()}}
+  requestAnimationFrame(drawPts);
+}
+window.addEventListener('resize',resize);resize();drawPts();
+
+/* REVEAL + BARS + RINGS */
+const circ=2*Math.PI*40;
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    const el=entry.target;
+    el.classList.add('visible');
+    // skill bar on card
+    if(el.classList.contains('skill-card')){const b=el.querySelector('.skill-bar');if(b)setTimeout(()=>b.style.width=(el.dataset.skill||0)+'%',150)}
+    // skill bars inside grid
+    el.querySelectorAll&&el.querySelectorAll('.skill-card').forEach((c,j)=>{const b=c.querySelector('.skill-bar');if(b)setTimeout(()=>b.style.width=(c.dataset.skill||0)+'%',200+j*120)});
+    // lang rings in container
+    el.querySelectorAll&&el.querySelectorAll('.lang-card').forEach((c,j)=>{
+      const f=c.querySelector('.lang-ring-fill');const p=parseFloat(c.dataset.pct)||0;
+      if(f)setTimeout(()=>f.style.strokeDashoffset=circ*(1-p/100),300+j*180);
+    });
+    // lang ring directly
+    if(el.classList.contains('lang-card')){const f=el.querySelector('.lang-ring-fill');const p=parseFloat(el.dataset.pct)||0;if(f)setTimeout(()=>f.style.strokeDashoffset=circ*(1-p/100),200)}
+    obs.unobserve(el);
+  });
+},{threshold:.15});
+
+document.querySelectorAll('.reveal,.skill-card,.lang-card').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
